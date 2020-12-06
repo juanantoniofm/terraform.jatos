@@ -12,3 +12,6 @@ install:  ## Prepare your machine to run the code
 	@echo "Installing terraform with tfenv"
 	tfenv install
 	mkdir -p .secrets/
+	cd terraform
+	terraform init
+	pwd
