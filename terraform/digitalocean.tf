@@ -1,6 +1,4 @@
-variable "api_token" {
-  default = ""
-}
+variable "api_token" { }
 
 terraform {
   required_providers {
@@ -17,7 +15,7 @@ provider "digitalocean" {
 
 
 resource "digitalocean_droplet" "web" {
-  image              = "ubuntu-20.04-x64"
+  image              = "ubuntu-20-04-x64"
   name               = "jatos-web"
   region             = "ams3"
   size               = "s-1vcpu-1gb"
@@ -25,4 +23,5 @@ resource "digitalocean_droplet" "web" {
   ipv6               = true
   private_networking = true
   user_data          = file("user-data.yaml")
+  //user_data          = "${file("user-data.yaml")}"
 }
