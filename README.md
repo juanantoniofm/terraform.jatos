@@ -27,3 +27,5 @@ If you want to participate, open an issue on github.
 ## Status
 
 - Spins up a droplet in digitalocean.
+- git clone fails due to host verification
+- 

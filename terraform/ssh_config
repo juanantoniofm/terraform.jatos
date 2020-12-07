@@ -1,6 +1,13 @@
+
+Host jatos-root
+    HostName 188.166.109.10
+    Port 22
+    User root
+    EscapeChar none
+
 Host jatos-web
-    HostName 188.166.91.123
-    Port 22022
+    HostName 188.166.109.10
+    Port 2022
     User admin
     IdentityFile ../.secrets/admin
     EscapeChar none

@@ -1,4 +1,4 @@
-variable "api_token" { }
+variable "api_token" {}
 
 terraform {
   required_providers {
@@ -23,5 +23,8 @@ resource "digitalocean_droplet" "web" {
   ipv6               = true
   private_networking = true
   user_data          = file("user-data.yaml")
-  //user_data          = "${file("user-data.yaml")}"
+}
+
+output "public_ip" {
+  value = digitalocean_droplet.web.ipv4_address
 }
