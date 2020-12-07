@@ -28,4 +28,4 @@ If you want to participate, open an issue on github.
 
 - Spins up a droplet in digitalocean.
 - git clone fails due to host verification
-- 
+- we still need to install docker-compose

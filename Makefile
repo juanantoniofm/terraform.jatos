@@ -20,3 +20,6 @@ destroy:  ## Destroy the resources
 	cd terraform; terraform destroy -auto-approve
 
 refresh: destroy apply ## Recreate the resources
+
+plan:  
+	cd terraform; terraform fmt; terraform plan
