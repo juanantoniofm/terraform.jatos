@@ -1,5 +1,5 @@
 
-resource "digitalocean_database_cluster" "mysql-jatos" {
+resource "digitalocean_database_cluster" "mysql_jatos" {
   name       = "jatos-mysql-cluster"
   engine     = "mysql"
   version    = "8"
@@ -9,13 +9,27 @@ resource "digitalocean_database_cluster" "mysql-jatos" {
   //private_network_uuid = digitalocean_vpc.jatosvpc.id
 }
 
-resource "random_password" "dbpassword" {
-  length           = 16
-  special          = true
-  override_special = "_%@!;"
+resource "digitalocean_database_db" "jatosdb" {
+  cluster_id = digitalocean_database_cluster.mysql_jatos.id
+  name       = "jatosdb"
+}
+
+resource "digitalocean_database_user" "jatos" {
+  cluster_id = digitalocean_database_cluster.mysql_jatos.id
+  name       = "jatos"
 }
 
 output "dbpassword" {
-  value = random_password.dbpassword.result
+  value     = digitalocean_database_user.jatos.password
+  sensitive = true
+}
+
+output "dbhost" {
+  value = digitalocean_database_cluster.mysql_jatos.host
+}
+
+
+output "dbport" {
+  value = digitalocean_database_cluster.mysql_jatos.port
 }
 

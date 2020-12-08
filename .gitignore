@@ -36,3 +36,5 @@ override.tf.json
 # temporary crap
 tmp/
 *log
+*.tmp
+    

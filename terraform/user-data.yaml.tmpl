@@ -16,42 +16,65 @@ write-files:
 write_files:
   - path: /etc/environment
     content: |
-      JATOS_DB_PASSWORD="${ dbpassword }"
-      DB_HOST="${ dbhost }"
+      JATOS_DB_PASSWORD="${dbpassword}"
+      DB_HOST="${dbhost}"
+      DB_PORT="${dbport}"
+      JATOS_DB_URL="${dbhost}:${dbport}/${dbname}"
     append: true
 
   - path: /etc/ssh/sshd_config.d/custom.conf
     content: |
-      port: 22022
-      Protocol 2
-      HostKey /etc/ssh/ssh_host_rsa_key
-      HostKey /etc/ssh/ssh_host_dsa_key
-      HostKey /etc/ssh/ssh_host_ecdsa_key
-      HostKey /etc/ssh/ssh_host_ed25519_key
-      UsePrivilegeSeparation yes
-      KeyRegenerationInterval 3600
-      ServerKeyBits 1024
-      SyslogFacility AUTH
-      LogLevel INFO
-      LoginGraceTime 120
-      PermitRootLogin no
-      StrictModes yes
-      RSAAuthentication yes
+
+      #       $OpenBSD: sshd_config,v 1.103 2018/04/09 20:41:22 tj Exp $
+
+      Include /etc/ssh/sshd_config.d/*.conf
+
+      Port 22022
+      #AddressFamily any
+      #ListenAddress 0.0.0.0
+      #ListenAddress ::
+
+      #HostKey /etc/ssh/ssh_host_rsa_key
+      #HostKey /etc/ssh/ssh_host_ecdsa_key
+      #HostKey /etc/ssh/ssh_host_ed25519_key
+
+      # Authentication:
+
+      #LoginGraceTime 2m
+      PermitRootLogin yes
+      #StrictModes yes
+      #MaxAuthTries 6
+      #MaxSessions 10
+
       PubkeyAuthentication yes
+
+      # Expect .ssh/authorized_keys2 to be disregarded by default in future.
+      #AuthorizedKeysFile     .ssh/authorized_keys .ssh/authorized_keys2
+
+      # For this to work you will also need host keys in /etc/ssh/ssh_known_hosts
+      #HostbasedAuthentication no
+      # Change to yes if you don't trust ~/.ssh/known_hosts for
+      # HostbasedAuthentication
+      #IgnoreUserKnownHosts no
+      # Don't read the user's ~/.rhosts and ~/.shosts files
       IgnoreRhosts yes
-      RhostsRSAAuthentication no
-      HostbasedAuthentication no
+
+      # To disable tunneled clear text passwords, change to no here!
+      PasswordAuthentication no
       PermitEmptyPasswords no
+
+      # Change to yes to enable challenge-response passwords (beware issues with
+      # some PAM modules and threads)
       ChallengeResponseAuthentication no
-      X11Forwarding yes
-      X11DisplayOffset 10
-      PrintMotd no
-      PrintLastLog yes
-      TCPKeepAlive yes
+
+      # no default banner path
+      #Banner none
+
+      # Allow client to pass locale environment variables
       AcceptEnv LANG LC_*
-      Subsystem sftp /usr/lib/openssh/sftp-server
-      UsePAM yes
-      AllowUsers jatos
+
+      # override default of no subsystems
+      Subsystem sftp  /usr/lib/openssh/sftp-server
 
   - path: /home/jatos/.bashrc
     content: |
@@ -62,14 +85,30 @@ package_upgrade: true
 packages:
   - git
   - vim-nox
-  - zsh
+  - zshG
   - net-tools
   - docker.io
+  - mysql-client-core-8.0
+  - etckeeper
 
 runcmd:
+  # Apply the custom ssh config
   - service ssh restart
   - [sh, -c, "chmod 755 /var/tmp"]
+  # Set up Docker-Compose
+  - sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  - [
+      sh,
+      -c,
+      'sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose',
+    ]
+  - sudo chmod +x /usr/local/bin/docker-compose
+  - docker-compose --version
+  # Clone the repo
   - git clone git@github.com:juanantoniofm/docker.jatos.git
+  # Unlock the user account
+  - usermod -p '${ssh_jatos_password}' username
+
 
 system_info:
   default_user:
