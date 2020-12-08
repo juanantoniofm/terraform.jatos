@@ -6,7 +6,11 @@ resource "digitalocean_database_cluster" "mysql_jatos" {
   size       = "db-s-1vcpu-2gb"
   region     = "ams3"
   node_count = 1
-  //private_network_uuid = digitalocean_vpc.jatosvpc.id
+  maintenance_window {
+    day  = 6
+    hour = 01
+  }
+  tags = ["jatos-web"]
 }
 
 resource "digitalocean_database_db" "jatosdb" {
@@ -31,5 +35,10 @@ output "dbhost" {
 
 output "dbport" {
   value = digitalocean_database_cluster.mysql_jatos.port
+}
+
+
+output "private_uri" {
+  value = digitalocean_database_cluster.mysql_jatos.private_uri
 }
 

@@ -22,7 +22,7 @@ write_files:
       JATOS_DB_URL="${dbhost}:${dbport}/${dbname}"
     append: true
 
-  - path: /etc/ssh/sshd_config.d/custom.conf
+  - path: /etc/ssh/sshd_config
     content: |
 
       #       $OpenBSD: sshd_config,v 1.103 2018/04/09 20:41:22 tj Exp $
@@ -85,7 +85,7 @@ package_upgrade: true
 packages:
   - git
   - vim-nox
-  - zshG
+  - zsh
   - net-tools
   - docker.io
   - mysql-client-core-8.0
@@ -93,7 +93,7 @@ packages:
 
 runcmd:
   # Apply the custom ssh config
-  - service ssh restart
+  # - service ssh restart #SSH BLocks restart if root disabled. like it is
   - [sh, -c, "chmod 755 /var/tmp"]
   # Set up Docker-Compose
   - sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -107,7 +107,7 @@ runcmd:
   # Clone the repo
   - git clone git@github.com:juanantoniofm/docker.jatos.git
   # Unlock the user account
-  - usermod -p '${ssh_jatos_password}' username
+  - usermod -p '${ssh_jatos_password}' jatos
 
 
 system_info:

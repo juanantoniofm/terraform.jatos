@@ -9,6 +9,7 @@ resource "digitalocean_droplet" "web" {
   monitoring         = true
   ipv6               = true
   private_networking = true
+  tags               = ["jatos-web"]
   user_data = templatefile("user-data.yaml.tmpl", {
     dbpassword         = digitalocean_database_user.jatos.password
     dbhost             = digitalocean_database_cluster.mysql_jatos.host
@@ -16,7 +17,6 @@ resource "digitalocean_droplet" "web" {
     dbname             = digitalocean_database_db.jatosdb.name
     ssh_jatos_password = random_password.ssh_jatos_password.result
   })
-  //vpc_uuid           = digitalocean_vpc.jatosvpc.id
 }
 
 
