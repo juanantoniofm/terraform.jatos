@@ -4,7 +4,7 @@ variable "user_config" {
   type = map
   default = {
     dbpassword = "TODO:injectpassword"
-    dbhost = "db.local"
+    dbhost     = "db.local"
   }
 }
 
