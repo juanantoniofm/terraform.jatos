@@ -26,6 +26,7 @@ resource "digitalocean_droplet" "web" {
   ipv6               = true
   private_networking = true
   user_data          = file("user-data.yaml")
+  //vpc_uuid           = digitalocean_vpc.jatosvpc.id
 }
 
 resource "local_file" "sshconf" {
