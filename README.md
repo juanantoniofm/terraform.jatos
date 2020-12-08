@@ -3,29 +3,35 @@
 The plan is to create an instance, and deploy jatos,
 for now with a simple docker-compose in a single instance.
 
-
-# Plans
+## Plans
 
 This repo will spin up one machine, and then
 from it clone a repo with a basic docker compose config.
 
 This will give us a working base for bulding a jatos setup with 2 servers, one for the java backend and another for the DB. 
 
+## Usage
 
+To start using this repo, after cloning it, you'll need to install some tols, and create a few secrets.
 
-# Resources required
+### Previous steps required
 
 - create a ssh key in .secrets/deploy
+
+        ssh-keygen 
+
 - create a digitalocean token and put it in tf.vars
-- you will need another repo, to configcure the docker-compose stuff that you want to run on the server.
 
-# Development
+    Go to digitalocean.com and open and accont. Go to settings, API and generate a new token.
 
-If you want to participate, open an issue on github.
+- At this point, to configure the application, you will need another repo, [docker.jatos](github.com/juanantoniofm/docker.jatos), to hold the configuration of the services you want to spin up.
 
+## Support
 
-## Status
+If you have trouble using this, open an issue on Github.
 
-- Spins up a droplet in digitalocean.
-- git clone fails due to host verification
-- we still need to install docker-compose
+## Development
+
+If you want to participate, open an issue on Github.
+
+I keep a [Development](docs/Development.md) document with some notes on the status and steps that I take.
