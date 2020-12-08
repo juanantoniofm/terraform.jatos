@@ -7,7 +7,7 @@ resource "digitalocean_database_cluster" "mysql_jatos" {
   region     = "ams3"
   node_count = 1
   maintenance_window {
-    day  = 6
+    day  = "monday"
     hour = 01
   }
   tags = ["jatos-web"]
