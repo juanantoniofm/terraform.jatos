@@ -8,6 +8,7 @@ resource "digitalocean_vpc" "jatosvpc" {
   ip_range = "10.11.12.0/24"
 }
 */
+
 terraform {
   required_providers {
     digitalocean = {
@@ -24,4 +25,8 @@ provider "digitalocean" {
 
 provider "local" {
   version = "2.0.0"
+}
+
+provider "random" {
+  version = "3.0.0"
 }

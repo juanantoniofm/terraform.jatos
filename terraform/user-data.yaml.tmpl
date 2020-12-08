@@ -13,6 +13,13 @@ groups:
   - docker
 
 write-files:
+write_files:
+  - path: /etc/environment
+    content: |
+      JATOS_DB_PASSWORD="${ dbpassword }"
+      DB_HOST="${ dbhost }"
+    append: true
+
   - path: /etc/ssh/sshd_config.d/custom.conf
     content: |
       port: 22022
@@ -45,6 +52,7 @@ write-files:
       Subsystem sftp /usr/lib/openssh/sftp-server
       UsePAM yes
       AllowUsers jatos
+
   - path: /home/jatos/.bashrc
     content: |
       alias vim="vim -p"

@@ -1,5 +1,12 @@
 variable "api_token" {}
 
+variable "user_config" {
+  type = map
+  default = {
+    dbpassword = "TODO:injectpassword"
+    dbhost = "db.local"
+  }
+}
 
 resource "digitalocean_droplet" "web" {
   image              = "ubuntu-20-04-x64"
@@ -9,7 +16,7 @@ resource "digitalocean_droplet" "web" {
   monitoring         = true
   ipv6               = true
   private_networking = true
-  user_data          = file("user-data.yaml")
+  user_data          = templatefile("user-data.yaml.tmpl", var.user_config)
   //vpc_uuid           = digitalocean_vpc.jatosvpc.id
 }
 

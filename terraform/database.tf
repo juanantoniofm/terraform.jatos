@@ -8,3 +8,14 @@ resource "digitalocean_database_cluster" "mysql-jatos" {
   node_count = 1
   //private_network_uuid = digitalocean_vpc.jatosvpc.id
 }
+
+resource "random_password" "dbpassword" {
+  length           = 16
+  special          = true
+  override_special = "_%@!;"
+}
+
+output "dbpassword" {
+  value = random_password.dbpassword.result
+}
+
