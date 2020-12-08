@@ -1,0 +1,31 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "plan",
+            "type": "shell",
+            "command": "make plan",
+            "windows": {
+                "command": "cd terraform; terraform fmt; terraform plan"
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": []
+        }
+    ],
+    "triggerTaskOnSave.tasks": {
+        "plan": [
+            "terraform/!ExampleOfException.tf",
+            "terraform/*.tf",
+            "*.tf"
+        ]
+    }
+}
