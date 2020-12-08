@@ -25,4 +25,4 @@ plan:
 	cd terraform; terraform fmt; terraform plan
 
 ssh:  ## Login to the machine using root
-	ssh -F terraform/ssh_config jatos-root
+	ssh -F terraform/ssh_config.tmp jatos-root

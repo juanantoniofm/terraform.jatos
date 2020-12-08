@@ -16,16 +16,22 @@
             },
             "presentation": {
                 "reveal": "always",
-                "panel": "new"
+                "panel": "dedicated"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "refresh",
+            "type": "shell",
+            "command": "make refresh",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
             },
             "problemMatcher": []
         }
-    ],
-    "triggerTaskOnSave.tasks": {
-        "plan": [
-            "terraform/!ExampleOfException.tf",
-            "terraform/*.tf",
-            "*.tf"
-        ]
-    }
-}
+    ]}
