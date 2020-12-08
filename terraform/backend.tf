@@ -1,21 +1,5 @@
 variable "api_token" {}
 
-terraform {
-  required_providers {
-    digitalocean = {
-      source  = "digitalocean/digitalocean"
-      version = "2.3.0"
-    }
-  }
-}
-
-provider "digitalocean" {
-  token = var.api_token
-}
-
-provider "local" {
-  version = "2.0.0"
-}
 
 resource "digitalocean_droplet" "web" {
   image              = "ubuntu-20-04-x64"
