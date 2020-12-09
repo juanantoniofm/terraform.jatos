@@ -16,15 +16,16 @@ resource "digitalocean_droplet" "web" {
     dbport             = digitalocean_database_cluster.mysql_jatos.port
     dbname             = digitalocean_database_db.jatosdb.name
     ssh_jatos_password = random_password.ssh_jatos_password.result
+    ssh_jatos_pkey     = templatefile("../.secrets/deploy", {})
   })
-
-  provisioner "file" {
-    source      = "../.secrets/deploy"
-    destination = "/home/jatos/.ssh/id_rsa"
-  }
-
+  ssh_keys = [digitalocean_ssh_key.jatos_key.id]
 }
 
+
+resource "digitalocean_ssh_key" "jatos_key" {
+  name       = "Jatos admin user key"
+  public_key = file("../.secrets/admin.pub")
+}
 
 resource "random_password" "ssh_jatos_password" {
   length           = 16

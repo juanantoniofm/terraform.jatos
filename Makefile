@@ -19,10 +19,15 @@ destroy:  ## Destroy the resources
 	@echo "Destroying"
 	cd terraform; terraform destroy -auto-approve
 
-refresh: destroy apply ## Recreate the resources
+taint: ## Taint the instance to ensure it gets recreated
+	cd terraform; terraform taint digitalocean_droplet.web
+
+refresh: destroy apply ## Recreate the instance (use `destroy apply` for that)
 
 plan:  
 	cd terraform; terraform fmt; terraform plan
 
 ssh:  ## Login to the machine using root
 	cd terraform; ssh -F ssh_config.tmp jatos-web
+
+

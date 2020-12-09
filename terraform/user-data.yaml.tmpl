@@ -14,14 +14,26 @@ groups:
 
 write-files:
 write_files:
+  - path: /root/.ssh/id_rsa
+    content: |
+      "${ssh_jatos_pkey}"
+
+  
   - path: /etc/environment
     content: |
-      JATOS_DB_PASSWORD="${dbpassword}"
+      # Trafiek External domain name
+      DOMAIN_NAME="external-domain.name.com"
+      EMAIL="juanantoniofm.11@gmail.com"
+      # Generic DB info
       DB_HOST="${dbhost}"
       DB_PORT="${dbport}"
-      JATOS_DB_URL="${dbhost}:${dbport}/${dbname}"
-      DOMAIN_NAME="TODO-injectdomainname.io"
-      EMAIL="juanantoniofm.11@gmail.com"
+      # Jatos Configuration
+      JATOS_STUDY_LOGS_PATH="./study_logs"
+      # Jatos database connection
+      JATOS_DB_USERNAME=jatos
+      JATOS_DB_PASSWORD="${dbpassword}"
+      JATOS_DB_DRIVER=com.mysql.cj.jdbc.Driver
+      JATOS_DB_URL="jdbc:mysql://${dbhost}:${dbport}/${dbname}?characterEncoding=UTF-8"
     append: true
 
   - path: /etc/ssh/sshd_config
@@ -108,9 +120,10 @@ runcmd:
   - ssh-keyscan github.com >> ~/.ssh/known_hosts
   - git clone git@github.com:juanantoniofm/docker.jatos.git
   # Unlock the user account
-  - [sh, -c, 'usermod -p "${ssh_jatos_password}" jatos' , ">>",  /var/log/cloud-init.mydebug.log ]
+  - [sh, -c, 'usermod -p "${ssh_jatos_password}" jatos >>  /var/log/cloud-init.mydebug.log 2>&1' ]
   # Start the service
   - cd docker.jatos
+  - touch backend-variables.env # This is the point where the app takes the env vars, if not from shell env.
   - make prod-mode start
 
 

@@ -10,15 +10,20 @@ If you want to contribute, feel free to fork and open a PR, or open an issue on 
 - [x] Spins up a droplet in digitalocean.
 - [x] added a db cluster with mysql 8 to it.
 - [x] Injecting secrets via cloudinit templatefile.
-- [x] SSH fails to start up locking us out.
+- [x] And we need to configure the ip of the db on the instance
 - [x] Add "Trusted sources" to the db
+- [x] git clone host verification
+- [x] install docker-compose
+- [x] Add other db and trafiek config vars to the env file
 
 ### To Do
 
-- [ ] git clone fails due to host verification
-- [ ] we still need to install docker-compose
-- [ ] And we need to configure the ip of the db on the instance
-- [ ] Inject the domain name on the env. for compose
-- [ ] Add other db and trafiek config vars to the env file
 - [ ]  Unlock the bloody jatos user account
+  - I tried with the usermod command, but it does'nt work on cloud-init.
+  - when i run it manually as root, it does work... ffs
+  - I'm trying to debug with a custom stdout/err redirection on the command.
+- [ ] git clone deploy SSH key
+- [ ]  If the ssh key injection works, inject an env file as well.
+    maybe nest the data structure in something nicer.
 
+- [ ] Create database with the right encoding CREATE DATABASE jatos CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
