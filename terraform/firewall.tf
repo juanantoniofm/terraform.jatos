@@ -56,6 +56,22 @@ resource "digitalocean_firewall" "web" {
     port_range            = "1-65500"
     destination_addresses = ["0.0.0.0/0", "::/0"]
   }
+
+  // Development ports. Only enable while working on infrastructure changes.
+  // JATOS Backend port
+  inbound_rule {
+    protocol         = "tcp"
+    port_range       = "9000"
+    source_addresses = ["0.0.0.0/0", "::/0"]
+  }
+
+  // Trafiek UI
+  inbound_rule {
+    protocol         = "tcp"
+    port_range       = "8080"
+    source_addresses = ["0.0.0.0/0", "::/0"]
+  }
+
 }
 
 

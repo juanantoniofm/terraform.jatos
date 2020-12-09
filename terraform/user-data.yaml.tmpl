@@ -93,6 +93,7 @@ packages:
   - docker-compose
   - mysql-client-core-8.0
   - etckeeper
+  - make
 
 runcmd:
   # Apply the custom ssh config
@@ -101,19 +102,16 @@ runcmd:
   - [sh, -c, "chown jatos:jatos /home/jatos"]
   - [sh, -c, "chmod 600 /home/jatos/.ssh/id_rsa"]
   # Set up Docker-Compose
-  - sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-  - [
-      sh,
-      -c,
-      'sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose',
-    ]
-  - sudo chmod +x /usr/local/bin/docker-compose
+  # Using packages instead of commands.
   - docker-compose --version
   # Clone the repo
   - ssh-keyscan github.com >> ~/.ssh/known_hosts
   - git clone git@github.com:juanantoniofm/docker.jatos.git
   # Unlock the user account
   - usermod -p '${ssh_jatos_password}' jatos
+  # Start the service
+  - cd docker.jatos
+  - make prod-mode start
 
 
 system_info:

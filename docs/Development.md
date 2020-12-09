@@ -20,3 +20,5 @@ If you want to contribute, feel free to fork and open a PR, or open an issue on 
 - [ ] And we need to configure the ip of the db on the instance
 - [ ] Inject the domain name on the env. for compose
 - [ ] Add other db and trafiek config vars to the env file
+- [ ]  Unlock the bloody jatos user account
+
