@@ -13,6 +13,12 @@ resource "digitalocean_firewall" "web" {
 
   inbound_rule {
     protocol         = "tcp"
+    port_range       = "22022"
+    source_addresses = ["0.0.0.0/0", "::/0"]
+  }
+
+  inbound_rule {
+    protocol         = "tcp"
     port_range       = "80"
     source_addresses = ["0.0.0.0/0", "::/0"]
   }
@@ -47,7 +53,7 @@ resource "digitalocean_firewall" "web" {
 
   outbound_rule {
     protocol              = "tcp"
-    port_range            = "0-65500"
+    port_range            = "1-65500"
     destination_addresses = ["0.0.0.0/0", "::/0"]
   }
 }
@@ -66,4 +72,10 @@ resource "digitalocean_database_firewall" "mysql_jatos_fw" {
     type  = "droplet"
     value = digitalocean_droplet.web.id
   }
+
+  rule {
+    type  = "tag"
+    value = "jatos-web"
+  }
+
 }

@@ -8,7 +8,7 @@ resource "digitalocean_database_cluster" "mysql_jatos" {
   node_count = 1
   maintenance_window {
     day  = "monday"
-    hour = 01
+    hour = "01:00"
   }
   tags = ["jatos-web"]
 }

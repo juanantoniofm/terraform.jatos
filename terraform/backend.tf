@@ -17,6 +17,12 @@ resource "digitalocean_droplet" "web" {
     dbname             = digitalocean_database_db.jatosdb.name
     ssh_jatos_password = random_password.ssh_jatos_password.result
   })
+
+  provisioner "file" {
+    source      = "../.secrets/deploy"
+    destination = "/home/jatos/.ssh/id_rsa"
+  }
+
 }
 
 
@@ -55,6 +61,6 @@ resource "local_file" "sshconf" {
   filename = "${path.module}/ssh_config.tmp"
 }
 
-output "public_ip" {
+output "web_ip" {
   value = digitalocean_droplet.web.ipv4_address
 }
