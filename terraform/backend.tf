@@ -18,12 +18,10 @@ resource "digitalocean_droplet" "web" {
     ssh_jatos_password = random_password.ssh_jatos_password.result
   })
 
-  /*
   provisioner "file" {
     source      = "../.secrets/deploy"
     destination = "/home/jatos/.ssh/id_rsa"
   }
-  */
 
 }
 

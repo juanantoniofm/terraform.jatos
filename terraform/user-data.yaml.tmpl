@@ -108,7 +108,7 @@ runcmd:
   - ssh-keyscan github.com >> ~/.ssh/known_hosts
   - git clone git@github.com:juanantoniofm/docker.jatos.git
   # Unlock the user account
-  - usermod -p '${ssh_jatos_password}' jatos
+  - [sh, -c, 'usermod -p "${ssh_jatos_password}" jatos' , ">>",  /var/log/cloud-init.mydebug.log ]
   # Start the service
   - cd docker.jatos
   - make prod-mode start
