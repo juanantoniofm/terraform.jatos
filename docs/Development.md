@@ -3,6 +3,11 @@
 
 If you want to contribute, feel free to fork and open a PR, or open an issue on github with your feature, bug, or question.
 
+
+## random notes
+
+Troubleshot the script in /var/lib/cloud/instance/scripts/runcmd
+
 ## Status
 
 ### Done

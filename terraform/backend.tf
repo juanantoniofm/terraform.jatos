@@ -16,7 +16,7 @@ resource "digitalocean_droplet" "web" {
     dbport             = digitalocean_database_cluster.mysql_jatos.port
     dbname             = digitalocean_database_db.jatosdb.name
     ssh_jatos_password = random_password.ssh_jatos_password.result
-    ssh_jatos_pkey     = templatefile("../.secrets/deploy", {})
+    ssh_jatos_pkey     = filebase64("../.secrets/deploy")
   })
   ssh_keys = [digitalocean_ssh_key.jatos_key.id]
 }

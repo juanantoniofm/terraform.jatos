@@ -8,6 +8,8 @@ users:
       - sudo
       - docker
     shell: /bin/bash
+    lock-passwd: false
+
 
 groups:
   - docker
@@ -15,11 +17,13 @@ groups:
 write-files:
 write_files:
   - path: /root/.ssh/id_rsa
+    permissions: "600"
     content: |
-      "${ssh_jatos_pkey}"
+      ${ssh_jatos_pkey}
 
   
   - path: /etc/environment
+    permissions: "600"
     content: |
       # Trafiek External domain name
       DOMAIN_NAME="external-domain.name.com"
@@ -91,6 +95,8 @@ write_files:
       Subsystem sftp  /usr/lib/openssh/sftp-server
 
   - path: /home/jatos/.bashrc
+    owner: "jatos:jatos"
+    permissions: "774"
     content: |
       alias vim="vim -p"
 
@@ -109,18 +115,16 @@ packages:
 
 runcmd:
   # Apply the custom ssh config
-  # - service ssh restart #SSH BLocks restart if root disabled. like it is
   - [sh, -c, "chmod 755 /var/tmp"]
   - [sh, -c, "chown jatos:jatos /home/jatos"]
-  - [sh, -c, "chmod 600 /home/jatos/.ssh/id_rsa"]
-  # Set up Docker-Compose
-  # Using packages instead of commands.
-  - docker-compose --version
-  # Clone the repo
+  # Configure SSH client keys and stuff
+  - echo $(cat /root/.ssh/id_rsa.b64) | openssl base64 -A -d
+  - mkdir -p ~/.ssh # For some reason the keyscan failed 
   - ssh-keyscan github.com >> ~/.ssh/known_hosts
+  - ssh-keyscan github.com >> /home/jatos/.ssh/known_hosts
+  - ssh-keyscan github.com >> /root/.ssh/known_hosts
+  # Clone the repo
   - git clone git@github.com:juanantoniofm/docker.jatos.git
-  # Unlock the user account
-  - [sh, -c, 'usermod -p "${ssh_jatos_password}" jatos >>  /var/log/cloud-init.mydebug.log 2>&1' ]
   # Start the service
   - cd docker.jatos
   - touch backend-variables.env # This is the point where the app takes the env vars, if not from shell env.
