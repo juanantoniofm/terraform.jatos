@@ -22,23 +22,3 @@ resource "digitalocean_database_user" "jatos" {
   cluster_id = digitalocean_database_cluster.mysql_jatos.id
   name       = "jatos"
 }
-
-output "dbpassword" {
-  value     = digitalocean_database_user.jatos.password
-  sensitive = true
-}
-
-output "dbhost" {
-  value = digitalocean_database_cluster.mysql_jatos.host
-}
-
-
-output "dbport" {
-  value = digitalocean_database_cluster.mysql_jatos.port
-}
-
-
-output "private_uri" {
-  value = digitalocean_database_cluster.mysql_jatos.private_uri
-}
-

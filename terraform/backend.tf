@@ -1,4 +1,4 @@
-variable "api_token" {}
+
 
 
 resource "digitalocean_droplet" "web" {
@@ -33,10 +33,6 @@ resource "random_password" "ssh_jatos_password" {
   override_special = "_%@!;"
 }
 
-output "ssh_jatos_password" {
-  value = random_password.ssh_jatos_password.result
-}
-
 
 resource "local_file" "sshconf" {
   content  = <<-EOT
@@ -60,8 +56,4 @@ resource "local_file" "sshconf" {
             EscapeChar none
         EOT
   filename = "${path.module}/ssh_config.tmp"
-}
-
-output "web_ip" {
-  value = digitalocean_droplet.web.ipv4_address
 }
