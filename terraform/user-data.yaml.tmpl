@@ -16,7 +16,7 @@ groups:
 
 write-files:
 write_files:
-  - path: /root/.ssh/id_rsa
+  - path: /root/.ssh/id_rsa.b64
     permissions: "600"
     content: |
       ${ssh_jatos_pkey}
@@ -29,15 +29,15 @@ write_files:
       DOMAIN_NAME="external-domain.name.com"
       EMAIL="juanantoniofm.11@gmail.com"
       # Generic DB info
-      DB_HOST="${dbhost}"
-      DB_PORT="${dbport}"
+      DB_DNS=${dbhost}
+      DB_PORT=${dbport}
       # Jatos Configuration
       JATOS_STUDY_LOGS_PATH="./study_logs"
       # Jatos database connection
       JATOS_DB_USERNAME=jatos
-      JATOS_DB_PASSWORD="${dbpassword}"
+      JATOS_DB_PASSWORD=${dbpassword}
       JATOS_DB_DRIVER=com.mysql.cj.jdbc.Driver
-      JATOS_DB_URL="jdbc:mysql://${dbhost}:${dbport}/${dbname}?characterEncoding=UTF-8"
+      JATOS_DB_URL=jdbc:mysql://${dbhost}:${dbport}/${dbname}?characterEncoding=UTF-8
     append: true
 
   - path: /etc/ssh/sshd_config
