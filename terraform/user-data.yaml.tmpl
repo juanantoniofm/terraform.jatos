@@ -9,6 +9,7 @@ users:
       - docker
     shell: /bin/bash
     lock-passwd: false
+    #TODO: The user still sees to be locked by ssh (no pass, key only)
 
 
 groups:
@@ -118,7 +119,9 @@ runcmd:
   - [sh, -c, "chmod 755 /var/tmp"]
   - [sh, -c, "chown jatos:jatos /home/jatos"]
   # Configure SSH client keys and stuff
-  - echo $(cat /root/.ssh/id_rsa.b64) | openssl base64 -A -d
+  - echo $(cat /root/.ssh/id_rsa.b64) | openssl base64 -A -d > /root/.ssh/id_rsa
+  - chmod 600 /root/.ssh/id_rsa
+  - rm /root/.ssh/id_rsa.b64
   - mkdir -p ~/.ssh # For some reason the keyscan failed 
   - ssh-keyscan github.com >> ~/.ssh/known_hosts
   - ssh-keyscan github.com >> /home/jatos/.ssh/known_hosts
