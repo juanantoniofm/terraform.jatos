@@ -14,6 +14,14 @@ This will give us a working base for bulding a jatos setup with 2 servers, one f
 
 To start using this repo, after cloning it, you'll need to install some tols, and create a few secrets.
 
+### Dependencies
+
+This repo uses [TF Env](https://github.com/tfutils/tfenv) to manage terraform versions.
+This means you need terraform as well, and you can use your own setup, but we recommend tfenv to manage it for you.
+
+
+
+
 ### Previous steps required
 
 - create a ssh key in .secrets/deploy
