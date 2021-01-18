@@ -37,4 +37,8 @@ override.tf.json
 tmp/
 *log
 *.tmp
+*.swp
     
+
+#MacOs crap
+.DS_Store
