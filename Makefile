@@ -22,7 +22,7 @@ destroy:  ## Destroy the resources
 taint: ## Taint the instance to ensure it gets recreated
 	cd terraform; terraform taint digitalocean_droplet.web
 
-refresh: destroy apply ## Recreate the instance (use `destroy apply` for that)
+refresh: taint apply ## Recreate the droplet (only) - Use `make destroy apply` re-create everything
 
 plan:  
 	cd terraform; terraform fmt; terraform plan
