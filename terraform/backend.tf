@@ -46,6 +46,7 @@ resource "local_file" "sshconf" {
             HostName ${digitalocean_droplet.web.ipv4_address}
             Port 22022
             User root
+            IdentityFile ../.secrets/admin
             EscapeChar none
 
         Host jatos-web

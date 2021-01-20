@@ -24,13 +24,20 @@ This means you need terraform as well, and you can use your own setup, but we re
 
 ### Previous steps required
 
-- create a ssh key in .secrets/deploy
+- You will need to create 2 ssh keys, one to manage your system, and another one to deploy,  in .secrets/ folder.
+
+    run this command to create a new key. You will be able to specify the path and the password as you go along.
 
         ssh-keygen 
 
-- create a digitalocean token and put it in tf.vars
+- create a digitalocean token and put it in `tf.vars`. I use `backend.auto.tfvars` for it, see example below.
 
     Go to digitalocean.com and open and accont. Go to settings, API and generate a new token.
+
+    Get the string of the token, and put it in a file, like this:
+
+            api_token = "d4t1515n071r34l70k3nbruvd773aa120k010kj01040k007eb413523b"
+        
 
 - At this point, to configure the application, you will need another repo, [docker.jatos](github.com/juanantoniofm/docker.jatos), to hold the configuration of the services you want to spin up.
 
