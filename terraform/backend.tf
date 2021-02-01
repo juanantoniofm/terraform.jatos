@@ -19,7 +19,7 @@ resource "digitalocean_droplet" "web" {
     ssh_jatos_pkey     = filebase64("../.secrets/deploy")
     ssh_admin_public   = file("../.secrets/admin.pub") # TODO: try to load the key dinamically
   })
-  ssh_keys = [digitalocean_ssh_key.jatos_key.id]
+  ssh_keys = [digitalocean_ssh_key.jatos_key.id] // Root user allowed SSH Key. Prevents the root password email.
 }
 
 
