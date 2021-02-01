@@ -10,9 +10,14 @@ apply:  ## Apply the terraform and create all the resources (auto approve)
 	cd terraform; terraform fmt; terraform apply -auto-approve
 
 install:  ## Prepare your machine to run the code 
+	@echo "Generating default secrets. Do not provide a password on the second key"
+	# generate a set of default keys, you can change them anytime
+	mkdir -p .secrets/
+	ssh-keygen -f .secrets/admin
+	ssh-keygen -f .secrets/deploy
+	# And prepare terraform
 	@echo "Installing terraform with tfenv"
 	tfenv install
-	mkdir -p .secrets/
 	cd terraform; terraform init
 
 destroy:  ## Destroy the resources

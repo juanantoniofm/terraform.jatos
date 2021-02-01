@@ -17,11 +17,20 @@ resource "digitalocean_droplet" "web" {
     dbname             = digitalocean_database_db.jatosdb.name
     ssh_jatos_password = random_password.ssh_jatos_password.result
     ssh_jatos_pkey     = filebase64("../.secrets/deploy")
+    ssh_admin_public   = file("../.secrets/admin.pub") # TODO: try to load the key dinamically
   })
   ssh_keys = [digitalocean_ssh_key.jatos_key.id]
 }
 
 
+// Because we want a floating IP that persists between refreshes
+resource "digitalocean_floating_ip" "external_ip" {
+  droplet_id = digitalocean_droplet.web.id
+  region     = digitalocean_droplet.web.region
+}
+
+
+// Security and SSH
 resource "digitalocean_ssh_key" "jatos_key" {
   name       = "Jatos admin user key"
   public_key = file("../.secrets/admin.pub")
@@ -37,20 +46,20 @@ resource "random_password" "ssh_jatos_password" {
 resource "local_file" "sshconf" {
   content  = <<-EOT
         Host jatos-rescue
-            HostName ${digitalocean_droplet.web.ipv4_address}
+            HostName ${digitalocean_floating_ip.external_ip.ip_address}
             Port 22
             User root
             EscapeChar none
         
         Host jatos-root
-            HostName ${digitalocean_droplet.web.ipv4_address}
+            HostName ${digitalocean_floating_ip.external_ip.ip_address}
             Port 22022
             User root
             IdentityFile ../.secrets/admin
             EscapeChar none
 
         Host jatos-web
-            HostName ${digitalocean_droplet.web.ipv4_address}
+            HostName ${digitalocean_floating_ip.external_ip.ip_address}
             Port 22022
             User jatos
             IdentityFile ../.secrets/admin

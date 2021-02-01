@@ -2,7 +2,7 @@
 users:
   - name: jatos
     ssh-authorized-keys:
-      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC4B9xgvQdrwNXdfV7PgngqiSeCRlYB17L1mnfOkY0FO0xv79su61/bmXBZ3A/6xbgC+Q/I6gYvQUgABtqd2QBs3q5QFRSvC8pfIFaZEiICpVOam4AAPyGRsiqcfoyHyheJOMUzy6QFcQ6S4XiXccPk0ZtaLlaFWl67/kIJXdEq5hDoPFFzjquE/4bNSOpoekV+gmjO5LYB7DSaE3ZAtJ00DvI5bWGEh8BZBRi+eJ/C188eRwFekK3ot/fR5jv+mOtUbNOIdD+GxJ1IxBj9hq+mG/l3TtKTd+qSVmpjS3M59IhN5Dnof3Vw/cCHcYHFyqePzSp0378gDNcbcPH9gepOowL8YHuZT/rzj+Sg8IOmqXKh8D1pvLIAzTxVy95gSGhBAxadnOJvGJyrX4h15suTRms61S5kgcrWk8cxPc0zpDf6bRvBtqlQMOgFKeIyHJEt/a2XGhnS/HXZ43x+OiLnIJFtUBlTDpMy7vlPEB151NDVWqMYkAOZPmykjDCWN+s= jatos@web
+      - ${ssh_admin_public} # Loading the public key dynamically
     sudo: ["ALL=(ALL) NOPASSWD:ALL"]
     groups:
       - sudo
@@ -25,7 +25,7 @@ write_files:
 
   
   - path: /etc/environment
-    permissions: "600"
+    permissions: "666"
     content: |
       # Trafiek External domain name
       DOMAIN_NAME="external-domain.name.com"
@@ -117,8 +117,8 @@ packages:
 
 runcmd:
   # Apply the custom ssh config
-  - [sh, -c, "chmod 755 /var/tmp"]
-  - [sh, -c, "chown jatos:jatos /home/jatos"]
+  - chmod 755 /var/tmp
+  - chown jatos:jatos /home/jatos
   - passwd -d jatos # Just because we don't want any fucking password
   # Configure SSH client keys and stuff
   - echo $(cat /root/.ssh/id_rsa.b64) | openssl base64 -A -d > /root/.ssh/id_rsa
@@ -130,6 +130,7 @@ runcmd:
   - ssh-keyscan github.com >> /root/.ssh/known_hosts
   # Clone the repo
   - git clone git@github.com:juanantoniofm/docker.jatos.git
+  - ln -s /docker.jatos /home/jatos/docker.jatos
   # Start the service
   - cd docker.jatos
   - touch backend-variables.env # This is the point where the app takes the env vars, if not from shell env.

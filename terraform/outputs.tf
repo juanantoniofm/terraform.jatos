@@ -23,7 +23,7 @@ output "private_uri" {
 
 
 output "web_ip" {
-  value = digitalocean_droplet.web.ipv4_address
+  value = digitalocean_floating_ip.external_ip.ip_address
 }
 
 
