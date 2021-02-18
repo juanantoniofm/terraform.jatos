@@ -20,15 +20,14 @@ Troubleshot the script in /var/lib/cloud/instance/scripts/runcmd
 - [x] git clone host verification
 - [x] install docker-compose
 - [x] Add other db and trafiek config vars to the env file
-
-### To Do
-
-- [ ]  Unlock the bloody jatos user account
+- [x] git clone deploy SSH key
+- [x]  If the ssh key injection works, inject an env file as well.
+- [x]  Unlock the admin jatos user account
   - I tried with the usermod command, but it does'nt work on cloud-init.
   - when i run it manually as root, it does work... ffs
   - I'm trying to debug with a custom stdout/err redirection on the command.
-- [ ] git clone deploy SSH key
-- [ ]  If the ssh key injection works, inject an env file as well.
-    maybe nest the data structure in something nicer.
+  - You have to define a password, even though is never going to be used. Quirks of user data.
+
+### To Do
 
 - [ ] Create database with the right encoding CREATE DATABASE jatos CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
