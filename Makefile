@@ -14,7 +14,7 @@ install:  ## Prepare your machine to run the code
 	# generate a set of default keys, you can change them anytime
 	mkdir -p .secrets/
 	ssh-keygen -f .secrets/admin
-	ssh-keygen -f .secrets/deploy
+	ssh-keygen -f .secrets/deploy -P ""
 	# And prepare terraform
 	@echo "Installing terraform with tfenv"
 	tfenv install
